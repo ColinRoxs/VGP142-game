@@ -19,6 +19,8 @@ public class FireballScript : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            GameManager.Instance.ResetGame();
+
             // Optional: apply damage here
             Destroy(gameObject);
         }
