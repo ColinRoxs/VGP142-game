@@ -29,6 +29,8 @@ public class BooEnemyAI : MonoBehaviour
     {
         if (player == null || mainCam == null) return;
 
+        float distance = Vector3.Distance(transform.position, player.position);
+
         // Check if enemy is visible in camera view
         if (IsVisibleToCamera())
         {

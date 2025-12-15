@@ -14,5 +14,13 @@ public class FireballScript : MonoBehaviour
     {
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
     }
-}
 
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            // Optional: apply damage here
+            Destroy(gameObject);
+        }
+    }
+}
