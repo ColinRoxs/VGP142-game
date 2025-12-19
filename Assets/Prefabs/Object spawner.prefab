@@ -51,7 +51,7 @@ MonoBehaviour:
   - {fileID: 7291832973015100294, guid: e6697ffbf0271d44594f8aa4d0e7fd4f, type: 3}
   - {fileID: 823816938948057405, guid: a4c0506c9a8082d4489caaa4c06c2bd2, type: 3}
   - {fileID: 7058890180667447536, guid: 31dca2046903ba94196dfc96dc292dd0, type: 3}
-  - {fileID: 0}
+  - {fileID: 2718718062705819716, guid: 71d587fbafa1e1446a439d3758d9b178, type: 3}
 --- !u!33 &960969651948920995
 MeshFilter:
   m_ObjectHideFlags: 0
