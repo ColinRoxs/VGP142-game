@@ -3,7 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class SimplePlayerController : MonoBehaviour
 {
-    public float moveSpeed = 5f;
+    public float baseMoveSpeed = 5f;
     public float gravity = -9.81f;
     public float jumpHeight = 2f;
 
@@ -13,8 +13,15 @@ public class SimplePlayerController : MonoBehaviour
     private bool isGrounded;
     private Vector3 lastPos;
 
+    private float currentMoveSpeed;
+
     private int forwardHash;
     private int rightHash;
+
+    private void Start()
+    {
+        currentMoveSpeed = baseMoveSpeed;
+    }
 
     private void Awake()
     {
@@ -28,13 +35,15 @@ public class SimplePlayerController : MonoBehaviour
     {
         isGrounded = controller.isGrounded;
 
+        currentMoveSpeed = baseMoveSpeed * GameManager.Instance.collectableCount + baseMoveSpeed;
+
         // Get movement input
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
         // Move relative to player's forward direction
         Vector3 move = transform.right * horizontal + transform.forward * vertical;
-        controller.Move(move * moveSpeed * Time.deltaTime);
+        controller.Move(move * currentMoveSpeed * Time.deltaTime);
 
         // Gravity
         if (isGrounded && velocity.y < 0)
@@ -55,8 +64,8 @@ public class SimplePlayerController : MonoBehaviour
 
         // --- Animation Control ---
         // If player is pressing movement keys, set Forward to 1, else 0
-        float forwardAmount = Mathf.Clamp(localVelocity.z / moveSpeed, -1f, 1f);
-        float rightAmount = Mathf.Clamp(-localVelocity.x / moveSpeed, -1f, 1f);
+        float forwardAmount = Mathf.Clamp(localVelocity.z / currentMoveSpeed, -1f, 1f);
+        float rightAmount = Mathf.Clamp(-localVelocity.x / currentMoveSpeed, -1f, 1f);
 
         if (animator != null && animator.runtimeAnimatorController != null)
         {
