@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class TurretAI : MonoBehaviour
 {
-    public Transform player;                     // Assign in Inspector
+    private Transform player;                    // Assign in Inspector
     public float attackRange = 10f;              // Distance at which turret fires
     public float rotationSpeed = 5f;             // How fast turret rotates to face player
 
@@ -13,7 +13,8 @@ public class TurretAI : MonoBehaviour
 
     void Update()
     {
-        if (player == null) return;
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null) player = playerObj.transform;
 
         float distance = Vector3.Distance(player.position, transform.position);
 

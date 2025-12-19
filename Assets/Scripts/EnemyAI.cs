@@ -3,7 +3,7 @@ using UnityEngine.AI;
 
 public class EnemyAI : MonoBehaviour
 {
-    public Transform player;          // Assign in Inspector
+    private Transform player;         // Assign in Inspector
     public float chaseRange = 10f;    // Distance at which enemy starts chasing
     public float stopRange = 12f;     // Distance at which enemy gives up
 
@@ -18,6 +18,8 @@ public class EnemyAI : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null) player = playerObj.transform;
     }
 
     void Update()

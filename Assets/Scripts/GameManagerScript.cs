@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
 
     private bool isPaused = false;
 
+    public int collectableCount = 0;
+
     private void Awake()
     {
         // Ensure only one GameManager exists
@@ -71,6 +73,12 @@ public class GameManager : MonoBehaviour
     {
         // Reload the currently active scene
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void AddCollectable()
+    {
+        collectableCount++;
+        Debug.Log("Collectables: " + collectableCount);
     }
 }
 
