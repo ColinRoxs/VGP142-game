@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]
 public class SimplePlayerController : MonoBehaviour
@@ -12,15 +13,27 @@ public class SimplePlayerController : MonoBehaviour
     private Vector3 velocity;
     private bool isGrounded;
     private Vector3 lastPos;
+    private PlayerInput playerInput;
 
     private float currentMoveSpeed;
 
     private int forwardHash;
     private int rightHash;
+    public GameObject attackHitbox;
+
+    public AudioClip shootSound;
+    public AudioSource audioSource;
+
 
     private void Start()
     {
         currentMoveSpeed = baseMoveSpeed;
+
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
     }
 
     private void Awake()
@@ -29,6 +42,7 @@ public class SimplePlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         forwardHash = Animator.StringToHash("Forward");
         rightHash = Animator.StringToHash("Right");
+        playerInput = GetComponent<PlayerInput>();
     }
 
     void Update()
@@ -61,9 +75,6 @@ public class SimplePlayerController : MonoBehaviour
 
         Vector3 localVelocity = transform.InverseTransformDirection(vel);
 
-
-        // --- Animation Control ---
-        // If player is pressing movement keys, set Forward to 1, else 0
         float forwardAmount = Mathf.Clamp(localVelocity.z / currentMoveSpeed, -1f, 1f);
         float rightAmount = Mathf.Clamp(-localVelocity.x / currentMoveSpeed, -1f, 1f);
 
@@ -72,9 +83,45 @@ public class SimplePlayerController : MonoBehaviour
             animator.SetFloat(forwardHash, forwardAmount);
             animator.SetFloat(rightHash, rightAmount);
         }
-
         lastPos = transform.position;
     }
+
+    private void OnEnable()
+    {
+        playerInput.actions["Attack"].performed += OnAttack;
+    }
+
+    private void OnDisable()
+    {
+        playerInput.actions["Attack"].performed -= OnAttack;
+    }
+
+    private void OnAttack(InputAction.CallbackContext context)
+    {
+        animator.SetTrigger("IsAttack");
+
+        if (shootSound != null)
+        {
+            audioSource.PlayOneShot(shootSound);
+        }
+    }
+
+    // Called by Animation Events or StateMachineBehaviour
+    public void AttackStarts()
+    {
+        Debug.Log("Attack started");
+        attackHitbox.SetActive(true);
+        Debug.Log("Hitbox activated");
+
+    }
+
+    public void AttackEnds()
+    {
+        Debug.Log("Attack ended");
+        attackHitbox.SetActive(false);
+        Debug.Log("Hitbox deactivated");
+
+    }
+
+
 }
-
-

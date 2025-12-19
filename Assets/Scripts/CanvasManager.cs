@@ -18,8 +18,8 @@ public class CanvasManager : MonoBehaviour
 
     private void Start()
     {
-        if (playButton) playButton.onClick.AddListener(() => SceneManager.LoadScene(2));
-        if (menuButton) playButton.onClick.AddListener(() => SceneManager.LoadScene(1));
+        if (playButton) playButton.onClick.AddListener(() => SceneManager.LoadScene(1));
+        if (menuButton) playButton.onClick.AddListener(() => SceneManager.LoadScene(0));
 
         if (settingButton) settingButton.onClick.AddListener(() => SetMenus(settingsPanel, mainMenuPanel)); 
         if (backButton) backButton.onClick.AddListener(() => SetMenus(mainMenuPanel, settingsPanel));

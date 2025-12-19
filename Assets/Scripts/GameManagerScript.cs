@@ -45,6 +45,11 @@ public class GameManager : MonoBehaviour
         {
             TogglePause();
         }
+
+        if (playerHealth <= 0)
+        {
+            SceneManager.LoadScene(3);
+        }
     }
 
     public void LoadMainMenu()

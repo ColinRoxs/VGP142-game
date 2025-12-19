@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.AI; 
 
-public class EnemyAI : MonoBehaviour
+public class EnemyAI : MonoBehaviour, IDamageable
+
 {
     private Transform player;         // Assign in Inspector
     public float chaseRange = 10f;    // Distance at which enemy starts chasing
@@ -18,12 +19,20 @@ public class EnemyAI : MonoBehaviour
     public int health = 100;
     public GameObject deathEffect;
 
+    public AudioClip shootSound;
+    public AudioSource audioSource;
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null) player = playerObj.transform;
+
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
     }
 
     void Update()
@@ -64,11 +73,17 @@ public class EnemyAI : MonoBehaviour
         {
             GameObject fireball = Instantiate(fireballPrefab, fireballSpawnPoint.position, fireballSpawnPoint.rotation);
         }
+
+        if (shootSound != null)
+        {
+            audioSource.PlayOneShot(shootSound);
+        }
     }
 
     public void TakeDamage(int damage)
     {
         health -= damage;
+        Debug.Log($"{gameObject.name} took {damage} damage. Remaining health: {health}");
         if (health <= 0)
         {
             Die();

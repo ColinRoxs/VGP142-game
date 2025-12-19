@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class BooEnemyAI : MonoBehaviour
+public class BooEnemyAI : MonoBehaviour, IDamageable
 {
     private NavMeshAgent agent;
     private Transform player;
@@ -18,6 +18,8 @@ public class BooEnemyAI : MonoBehaviour
     public int health = 100;
     public GameObject deathEffect;
 
+    public AudioClip shootSound;
+    public AudioSource audioSource;
 
     void Start()
     {
@@ -27,6 +29,12 @@ public class BooEnemyAI : MonoBehaviour
 
         mainCam = Camera.main;
         enemyRenderer = GetComponent<Renderer>();
+
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
     }
 
     void Update()
@@ -70,11 +78,17 @@ public class BooEnemyAI : MonoBehaviour
         {
             GameObject fireball = Instantiate(fireballPrefab, fireballSpawnPoint.position, fireballSpawnPoint.rotation);
         }
+
+        if (shootSound != null)
+        {
+            audioSource.PlayOneShot(shootSound);
+        }
     }
 
     public void TakeDamage(int damage)
     {
         health -= damage;
+        Debug.Log($"{gameObject.name} took {damage} damage. Remaining health: {health}");
         if (health <= 0)
         {
             Die();

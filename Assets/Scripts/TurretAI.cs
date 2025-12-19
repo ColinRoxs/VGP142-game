@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class TurretAI : MonoBehaviour
+public class TurretAI : MonoBehaviour, IDamageable
 {
     private Transform player;                    // Assign in Inspector
     public float attackRange = 10f;              // Distance at which turret fires
@@ -14,6 +14,17 @@ public class TurretAI : MonoBehaviour
     public int health = 100;
     public GameObject deathEffect;
 
+    public AudioClip shootSound;
+    public AudioSource audioSource;
+
+    void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+    }
 
     void Update()
     {
@@ -42,11 +53,17 @@ public class TurretAI : MonoBehaviour
         {
             Instantiate(fireballPrefab, fireballSpawnPoint.position, fireballSpawnPoint.rotation);
         }
+
+        if (shootSound != null)
+        {
+            audioSource.PlayOneShot(shootSound);
+        }
     }
 
     public void TakeDamage(int damage)
     {
         health -= damage;
+        Debug.Log($"{gameObject.name} took {damage} damage. Remaining health: {health}");
         if (health <= 0)
         {
             Die();
