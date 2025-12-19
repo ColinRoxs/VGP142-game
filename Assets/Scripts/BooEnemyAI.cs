@@ -15,6 +15,10 @@ public class BooEnemyAI : MonoBehaviour
 
     private float fireTimer = 0f;
 
+    public int health = 100;
+    public GameObject deathEffect;
+
+
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -66,5 +70,22 @@ public class BooEnemyAI : MonoBehaviour
         {
             GameObject fireball = Instantiate(fireballPrefab, fireballSpawnPoint.position, fireballSpawnPoint.rotation);
         }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
+        if (health <= 0)
+        {
+            Die();
+        }
+    }
+    private void Die()
+    {
+        if (deathEffect != null)
+        {
+            Instantiate(deathEffect, transform.position, Quaternion.identity);
+        }
+        Destroy(gameObject);
     }
 }

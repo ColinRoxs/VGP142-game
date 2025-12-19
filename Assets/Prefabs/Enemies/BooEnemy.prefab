@@ -186,6 +186,8 @@ MonoBehaviour:
   fireballSpawnPoint: {fileID: 5616499161785825444}
   attackRange: 20
   fireCooldown: 2
+  health: 100
+  deathEffect: {fileID: 1000012909287652, guid: abb9f519b142e304d9c45b56afa768bc, type: 3}
 --- !u!1001 &1840173148919209763
 PrefabInstance:
   m_ObjectHideFlags: 0

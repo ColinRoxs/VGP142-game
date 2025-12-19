@@ -182,12 +182,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11faabd2bc14ac8489527d4e4169e78b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TurretAI
-  player: {fileID: 0}
   attackRange: 10
   rotationSpeed: 5
   fireballPrefab: {fileID: 3644366998512593325, guid: 7167ac96ba9fc2f4b85f4897c8590480, type: 3}
   fireballSpawnPoint: {fileID: 9101158486360269479}
   fireCooldown: 2
+  health: 100
+  deathEffect: {fileID: 1000012909287652, guid: abb9f519b142e304d9c45b56afa768bc, type: 3}
 --- !u!1001 &6390884813120645710
 PrefabInstance:
   m_ObjectHideFlags: 0
