@@ -6,6 +6,13 @@ public class GameManager : MonoBehaviour
     // Singleton pattern so other scripts can easily access GameManager
     public static GameManager Instance;
 
+    public int playerHealth = 100; //Health
+    public int playerMaxHealth = 100;
+
+    public string currentLevelName = "TestingCell";
+
+    private bool isPaused = false;
+
     private void Awake()
     {
         // Ensure only one GameManager exists
@@ -18,6 +25,45 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) && SceneManager.GetActiveScene().name != "MainMenu")
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
+
+        if (playerHealth > playerMaxHealth)
+        {
+            playerHealth = playerMaxHealth;
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            TogglePause();
+        }
+    }
+
+    public void LoadMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    public void LoadGameOver()
+    {
+        SceneManager.LoadScene("Game Over");
+    }
+
+    public void OnQuitGame()
+    {
+        Application.Quit();
+    }
+
+    public void TogglePause()
+    {
+        isPaused = !isPaused;
+        Time.timeScale = isPaused ? 0f : 1f;
     }
 
     // Public method to reset the game
